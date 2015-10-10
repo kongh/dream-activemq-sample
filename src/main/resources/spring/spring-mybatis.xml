@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+       <!--数据源-->
+       <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+             destroy-method="close">
+              <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+              <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
+              <property name="username" value="root"/>
+              <property name="password" value="konghang158"/>
+       </bean>
+
+       <!--mybatis session factory-->
+       <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
+              <property name="dataSource" ref="myDataSource"/>
+              <property name="mapperLocations" value="classpath*:mappers/*/*.xml"/>
+       </bean>
+
+       <!--configruer-->
+       <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+              <property name="basePackage" value="com.coder.dream.dao.mapper"/>
+       </bean>
+
+       <bean id="translationManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+           <property name="dataSource" ref="myDataSource"/>
+       </bean>
+
+       <!--开启注解事务驱动-->
+       <tx:annotation-driven transaction-manager="translationManager"/>
+
+</beans>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+      <bean id="mc" destroy-method="shutdown" class="net.rubyeye.xmemcached.utils.XMemcachedClientFactoryBean">
+          <property name="servers">
+              <value>127.0.0.1:11211</value>
+          </property>
+          <property name="sessionLocator">
+              <bean class="net.rubyeye.xmemcached.impl.KetamaMemcachedSessionLocator"/>
+          </property>
+          <property name="transcoder">
+              <bean class="net.rubyeye.xmemcached.transcoders.SerializingTranscoder" />
+          </property>
+          <property name="bufferAllocator">
+              <bean class="net.rubyeye.xmemcached.buffer.SimpleBufferAllocator"/>
+          </property>
+      </bean>
+
+</beans>
